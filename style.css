@@ -12,8 +12,12 @@ p {
   margin-bottom: 0.5em;
 }
 
+.list {
+  background-color: #e8f4f8; 
+}
+
 .major {
-  background-color: red;
+  background-color: #d70028;
   border-color: #295d8f;
   border-style: solid;
   border-width: thick;

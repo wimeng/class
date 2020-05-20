@@ -8,12 +8,13 @@
 
       function num_to_color(perc, darkness) {
         var dark_diff = 255 - darkness;
-        var color_num = 255 * 65536 + darkness;
+        var color_num = dark_diff * 65536 + darkness;
         if (perc < .5) {
           color_num += Math.floor(dark_diff * perc * 2) * 256;
         }
-        if (perc > .5) {
-          color_num -= Math.floor(dark_diff * (perc - 0.5) * 2) * 65536;
+        else if (perc > .5) {
+          color_num += dark_diff * 256;
+          color_num -= Math.floor(dark_diff * (perc - 0.5) * 2)  * 65536;
         }
         var color_hex = color_num.toString(16);
         if (color_hex.length == 4) {
@@ -41,7 +42,7 @@
 
 
 
-        document.getElementById("percentage1").innerHTML = m1count + "/13 (" + (m1count / 13 * 100).toFixed(3) + "%)";
+        document.getElementById("percentage1").innerHTML = m1count + "/13 classes taken (" + (m1count / 13 * 100).toFixed(3) + "%)";
         document.getElementById("major1").style.backgroundColor = num_to_color(m1count / 13, 40);
       }
     </script>
@@ -52,20 +53,22 @@
     <button onclick="display()" type="button" id="Enter">Enter</button>
     <div class="major" id="major1"> <!computer science lsa>
       <h1>Computer Science</h1>
-      <p id="percentage1"> 0/13 </p>
-      <p id="m1item1"> [X] MATH 115, 120, or 185 </p>
-      <p id="m1item2"> [X] MATH 116, 121, or 186 </p>
-      <p id="m1item3"> [X] EECS 203 </p>
-      <p id="m1item4"> [X] EECS 280 </p>
-      <p id="m1item5"> [X] EECS 281 </p>
-      <p id="m1item6"> [X] EECS 370 </p>
-      <p id="m1item7"> [X] EECS 376 </p>
-      <p id="m1item8"> [X] STATS 250, 265, 280, 412, 426, or IOE 265 </p>
-      <p id="m1item9"> [X] Upper-Level CS Technical Elective 1 </p>
-      <p id="m1item10"> [X] Upper-Level CS Technical Elective 2 </p>
-      <p id="m1item11"> [X] Upper-Level CS Technical Elective 3 </p>
-      <p id="m1item12"> [X] Upper-Level CS Technical Elective 4 </p>
-      <p id="m1item13"> [X] Capstone Class </p>
+      <h2 id="percentage1"> 0/13 classes taken (0.000%) </h2>
+      <div class="list">
+        <p id="m1item1"> [X] MATH 115, 120, or 185 </p>
+        <p id="m1item2"> [X] MATH 116, 121, or 186 </p>
+        <p id="m1item3"> [X] EECS 203 </p>
+        <p id="m1item4"> [X] EECS 280 </p>
+        <p id="m1item5"> [X] EECS 281 </p>
+        <p id="m1item6"> [X] EECS 370 </p>
+        <p id="m1item7"> [X] EECS 376 </p>
+        <p id="m1item8"> [X] STATS 250, 265, 280, 412, 426, or IOE 265 </p>
+        <p id="m1item9"> [X] Upper-Level CS Technical Elective 1 </p>
+        <p id="m1item10"> [X] Upper-Level CS Technical Elective 2 </p>
+        <p id="m1item11"> [X] Upper-Level CS Technical Elective 3 </p>
+        <p id="m1item12"> [X] Upper-Level CS Technical Elective 4 </p>
+        <p id="m1item13"> [X] Capstone Class </p>
+      </div>
     </div>
   </body>
 </html>
