@@ -6,25 +6,46 @@
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript">
       function display() {
-        var str = document.getElementById("list").value;
+        var raw = ((document.getElementById("list").value).toLowerCase()).replace(/\s/g, "");
+        var courses = new Set(raw.split(",")); // potential problem with multiple commas
+
+        var m1count = 0;
+        if (courses.has("math115") || courses.has("math120") || courses.has("math185")) { document.getElementById("m1item1").innerHTML = "[O] MATH 115, 120, or 185"; m1count++ }
+        if (courses.has("math116") || courses.has("math121") || courses.has("math186")) { document.getElementById("m1item2").innerHTML = "[O] MATH 116, 121, or 186"; m1count++ }
+        if (courses.has("eecs203")) { document.getElementById("m1item3").innerHTML = "[O] EECS 203"; m1count++ }
+        if (courses.has("eecs280")) { document.getElementById("m1item4").innerHTML = "[O] EECS 280"; m1count++ }
+        if (courses.has("eecs281")) { document.getElementById("m1item5").innerHTML = "[O] EECS 281"; m1count++ }
+        if (courses.has("eecs370")) { document.getElementById("m1item6").innerHTML = "[O] EECS 370"; m1count++ }
+        if (courses.has("eecs376")) { document.getElementById("m1item7").innerHTML = "[O] EECS 376"; m1count++ }
 
 
-        if (str === "EECS 203") {
-          str = "complete";
-        }
 
 
-
-
-
-        document.getElementById("major1").innerHTML = str;
+        document.getElementById("percentage1").innerHTML = m1count + "/13 (" + (m1count / 13 * 100).toFixed(3) + "%)";
       }
+
+
     </script>
   </head>
   <body>
-    <input type="text" id="list" placeholder="Enter your classes in the form of a comma separated list (EECS 183, EECS 280, EECS 203, etc.)">
+    <input type="text" size="180" id="list" placeholder="Enter your classes in the form of a comma separated list (EECS 183, EECS 280, EECS 203, etc.)">
     <br>
     <button onclick="display()" type="button" id="Enter">Enter</button>
-    <p id="major1"></p>
+    <div class="major1"> <!computer science lsa>
+      <p id="percentage1"> 0/13 </p>
+      <p id="m1item1"> [X] MATH 115, 120, or 185 </p>
+      <p id="m1item2"> [X] MATH 116, 121, or 186 </p>
+      <p id="m1item3"> [X] EECS 203 </p>
+      <p id="m1item4"> [X] EECS 280 </p>
+      <p id="m1item5"> [X] EECS 281 </p>
+      <p id="m1item6"> [X] EECS 370 </p>
+      <p id="m1item7"> [X] EECS 376 </p>
+      <p id="m1item8"> [X] STATS 250, 265, 280, 412, 426, or IOE 265 </p>
+      <p id="m1item9"> [X] Upper-Level CS Technical Elective 1 </p>
+      <p id="m1item10"> [X] Upper-Level CS Technical Elective 2 </p>
+      <p id="m1item11"> [X] Upper-Level CS Technical Elective 3 </p>
+      <p id="m1item12"> [X] Upper-Level CS Technical Elective 4 </p>
+      <p id="m1item13"> [X] Capstone Class </p>
+    </div>
   </body>
 </html>
