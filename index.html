@@ -26,9 +26,71 @@
         return '#' + color_hex;
       }
 
+      function hideshow(id) {
+        var x = document.getElementById(id);
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+
+      function has_stats(course_set) {
+        return course_set.has("stats250") || course_set.has("stats265") || course_set.has("stats280") || course_set.has("stats412") || course_set.has("stats426") || course_set.has("ioe265");
+      }
+
+      function normalize(course) {
+        var res = course.toUpperCase();
+        return res.substring(0, res.length - 3) + " " + res.substring(res.length - 3, res.length);
+      }
+
+      function capstone(course_set) {
+        if (course_set.has("eecs440")) { return "eecs440" }
+        else if (course_set.has("eecs441")) { return "eecs441"; }
+        else if (course_set.has("eecs443")) { return "eecs443"; }
+        else if (course_set.has("eecs467")) { return "eecs467"; }
+        else if (course_set.has("eecs473")) { return "eecs473"; }
+        else if (course_set.has("eecs480")) { return "eecs480"; }
+        else if (course_set.has("eecs494")) { return "eecs494"; }
+        else if (course_set.has("eecs495")) { return "eecs485"; }
+        else if (course_set.has("eecs497")) { return "eecs497"; }
+        else if (course_set.has("eecs470")) { return "eecs470"; }
+        else { return "none"; }
+      }
+
+      function ulcs(course_set) {
+        if (course_set.has("eecs367")) { return "eecs367" }
+        else if (course_set.has("eecs373")) { return "eecs373"; }
+        else if (course_set.has("eecs381")) { return "eecs381"; }
+        else if (course_set.has("eecs388")) { return "eecs388"; }
+        else if (course_set.has("eecs427")) { return "eecs427"; }
+        else if (course_set.has("eecs442")) { return "eecs442"; }
+        else if (course_set.has("eecs445")) { return "eecs445"; }
+        else if (course_set.has("eecs470")) { return "eecs470"; }
+        else if (course_set.has("eecs475")) { return "eecs475"; }
+        else if (course_set.has("eecs476")) { return "eecs476"; }
+        else if (course_set.has("eecs477")) { return "eecs477"; }
+        else if (course_set.has("eecs478")) { return "eecs478"; }
+        else if (course_set.has("eecs481")) { return "eecs481"; }
+        else if (course_set.has("eecs482")) { return "eecs482"; }
+        else if (course_set.has("eecs483")) { return "eecs483"; }
+        else if (course_set.has("eecs484")) { return "eecs484"; }
+        else if (course_set.has("eecs485")) { return "eecs485"; }
+        else if (course_set.has("eecs486")) { return "eecs486"; }
+        else if (course_set.has("eecs487")) { return "eecs487"; }
+        else if (course_set.has("eecs489")) { return "eecs489"; }
+        else if (course_set.has("eecs490")) { return "eecs490"; }
+        else if (course_set.has("eecs491")) { return "eecs491"; }
+        else if (course_set.has("eecs492")) { return "eecs492"; }
+        else if (course_set.has("eecs493")) { return "eecs493"; }
+        else { return "none"; }
+      }
+
       function display() {
         var raw = ((document.getElementById("list").value).toLowerCase()).replace(/\s/g, "");
         var courses = new Set(raw.split(",")); // potential problem with multiple commas
+        var temp = new Set();
+        var temp_course = "";
 
         var m1count = 0;
         if (courses.has("math115") || courses.has("math120") || courses.has("math185")) { document.getElementById("m1item1").innerHTML = "[O] MATH 115, 120, or 185"; m1count++ }
@@ -38,7 +100,17 @@
         if (courses.has("eecs281")) { document.getElementById("m1item5").innerHTML = "[O] EECS 281"; m1count++ }
         if (courses.has("eecs370")) { document.getElementById("m1item6").innerHTML = "[O] EECS 370"; m1count++ }
         if (courses.has("eecs376")) { document.getElementById("m1item7").innerHTML = "[O] EECS 376"; m1count++ }
-
+        if (has_stats(courses)) { document.getElementById("m1item8").innerHTML = "[O] STATS 250, 265, 280, 412, 426, or IOE 265"; m1count++ }
+        temp_course = capstone(courses);
+        if (temp_course != "none") { document.getElementById("m1item13").innerHTML = "[O] Capstone Class: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
+        temp_course = ulcs(courses);
+        if (temp_course != "none") { document.getElementById("m1item9").innerHTML = "[O] Upper-Level CS Technical Elective 1: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
+        temp_course = ulcs(courses);
+        if (temp_course != "none") { document.getElementById("m1item10").innerHTML = "[O] Upper-Level CS Technical Elective 2: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
+        temp_course = ulcs(courses);
+        if (temp_course != "none") { document.getElementById("m1item11").innerHTML = "[O] Upper-Level CS Technical Elective 3: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
+        temp_course = ulcs(courses);
+        if (temp_course != "none") { document.getElementById("m1item12").innerHTML = "[O] Upper-Level CS Technical Elective 4: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
 
 
 
@@ -51,10 +123,10 @@
     <input type="text" size="180" id="list" placeholder="Enter your classes in the form of a comma separated list (EECS 183, EECS 280, EECS 203, etc.)">
     <br>
     <button onclick="display()" type="button" id="Enter">Enter</button>
-    <div class="major" id="major1"> <!computer science lsa>
+    <div class="major" id="major1" onclick="hideshow('list1')"> <!computer science lsa>
       <h1>Computer Science</h1>
       <h2 id="percentage1"> 0/13 classes taken (0.000%) </h2>
-      <div class="list">
+      <div class="list" id="list1">
         <p id="m1item1"> [X] MATH 115, 120, or 185 </p>
         <p id="m1item2"> [X] MATH 116, 121, or 186 </p>
         <p id="m1item3"> [X] EECS 203 </p>
