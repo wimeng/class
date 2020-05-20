@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript">
+      function display() {
+        var str = document.getElementById("list").value;
+
+
+        if (str === "EECS 203") {
+          str = "complete";
+        }
+
+
+
+
+
+        document.getElementById("major1").innerHTML = str;
+      }
+    </script>
+  </head>
+  <body>
+    <input type="text" id="list" placeholder="Enter your classes in the form of a comma separated list (EECS 183, EECS 280, EECS 203, etc.)">
+    <br>
+    <button onclick="display()" type="button" id="Enter">Enter</button>
+    <p id="major1"></p>
+  </body>
+</html>
