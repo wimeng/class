@@ -5,6 +5,26 @@
     <title></title>
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript">
+
+      function num_to_color(perc, darkness) {
+        var dark_diff = 255 - darkness;
+        var color_num = 255 * 65536 + darkness;
+        if (perc < .5) {
+          color_num += Math.floor(dark_diff * perc * 2) * 256;
+        }
+        if (perc > .5) {
+          color_num -= Math.floor(dark_diff * (perc - 0.5) * 2) * 65536;
+        }
+        var color_hex = color_num.toString(16);
+        if (color_hex.length == 4) {
+          color_hex = "00" + color_hex;
+        }
+        else if (color_hex.length == 5) {
+          color_hex = "0" + color_hex;
+        }
+        return '#' + color_hex;
+      }
+
       function display() {
         var raw = ((document.getElementById("list").value).toLowerCase()).replace(/\s/g, "");
         var courses = new Set(raw.split(",")); // potential problem with multiple commas
@@ -22,16 +42,16 @@
 
 
         document.getElementById("percentage1").innerHTML = m1count + "/13 (" + (m1count / 13 * 100).toFixed(3) + "%)";
+        document.getElementById("major1").style.backgroundColor = num_to_color(m1count / 13, 40);
       }
-
-
     </script>
   </head>
   <body>
     <input type="text" size="180" id="list" placeholder="Enter your classes in the form of a comma separated list (EECS 183, EECS 280, EECS 203, etc.)">
     <br>
     <button onclick="display()" type="button" id="Enter">Enter</button>
-    <div class="major1"> <!computer science lsa>
+    <div class="major" id="major1"> <!computer science lsa>
+      <h1>Computer Science</h1>
       <p id="percentage1"> 0/13 </p>
       <p id="m1item1"> [X] MATH 115, 120, or 185 </p>
       <p id="m1item2"> [X] MATH 116, 121, or 186 </p>
