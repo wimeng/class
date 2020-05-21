@@ -5,6 +5,38 @@
     <title></title>
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript">
+      // MATH 115, MATH 116, EECS 203, EECS 280, EECS 281, EECS 370, EECS 376, EECS 477, STATS 412, EECS 388, EECS 470, EECS 476, EECS 485
+      function reset() {
+
+        //computer science
+        document.getElementById("m1item1").innerHTML = "[X] MATH 115, 120, or 185";
+        document.getElementById("m1item2").innerHTML =  "[X] MATH 116, 121, or 186";
+        document.getElementById("m1item3").innerHTML =  "[X] EECS 203";
+        document.getElementById("m1item4").innerHTML =  "[X] EECS 280";
+        document.getElementById("m1item5").innerHTML =  "[X] EECS 281";
+        document.getElementById("m1item6").innerHTML =  "[X] EECS 370";
+        document.getElementById("m1item7").innerHTML =  "[X] EECS 376";
+        document.getElementById("m1item8").innerHTML =  "[X] STATS 250, 265, 280, 412, 426, or IOE 265";
+        document.getElementById("m1item9").innerHTML =  "[X] Upper-Level CS Technical Elective 1";
+        document.getElementById("m1item10").innerHTML =  "[X] Upper-Level CS Technical Elective 2";
+        document.getElementById("m1item11").innerHTML =  "[X] Upper-Level CS Technical Elective 3";
+        document.getElementById("m1item12").innerHTML =  "[X] Upper-Level CS Technical Elective 4";
+        document.getElementById("m1item13").innerHTML =  "[X] Capstone Class";
+
+        //economics
+        document.getElementById("m2item1").innerHTML = "[X] ECON 101";
+        document.getElementById("m2item2").innerHTML =  "[X] ECON 102";
+        document.getElementById("m2item3").innerHTML =  "[X] MATH 115 (or an accepted substitute)";
+        document.getElementById("m2item4").innerHTML =  "[X] ECON 401";
+        document.getElementById("m2item5").innerHTML =  "[X] ECON 402";
+        document.getElementById("m2item6").innerHTML =  "[X] STATS 250, 280, or 426, or ECON 451 or 453";
+        document.getElementById("m2item7").innerHTML =  "[X] ECON 251, 452, or 454";
+        document.getElementById("m2item8").innerHTML =  "[X] Upper-Level Economics Elective 1";
+        document.getElementById("m2item9").innerHTML =  "[X] Upper-Level Economics Elective 2";
+        document.getElementById("m2item10").innerHTML =  "[X] Upper-Level Economics Elective 3";
+        document.getElementById("m2item11").innerHTML =  "[X] Upper-Level Economics Elective 4";
+        document.getElementById("m2item12").innerHTML =  "[X] Upper-Level Economics Elective 5";
+      }
 
       function num_to_color(perc, darkness) {
         var dark_diff = 255 - darkness;
@@ -35,7 +67,7 @@
         }
       }
 
-      function has_stats(course_set) {
+      function has_stats_cs(course_set) {
         return course_set.has("stats250") || course_set.has("stats265") || course_set.has("stats280") || course_set.has("stats412") || course_set.has("stats426") || course_set.has("ioe265");
       }
 
@@ -91,7 +123,9 @@
         var courses = new Set(raw.split(",")); // potential problem with multiple commas
         var temp = new Set();
         var temp_course = "";
+        reset();
 
+        //computer science
         var m1count = 0;
         if (courses.has("math115") || courses.has("math120") || courses.has("math185")) { document.getElementById("m1item1").innerHTML = "[O] MATH 115, 120, or 185"; m1count++ }
         if (courses.has("math116") || courses.has("math121") || courses.has("math186")) { document.getElementById("m1item2").innerHTML = "[O] MATH 116, 121, or 186"; m1count++ }
@@ -100,7 +134,7 @@
         if (courses.has("eecs281")) { document.getElementById("m1item5").innerHTML = "[O] EECS 281"; m1count++ }
         if (courses.has("eecs370")) { document.getElementById("m1item6").innerHTML = "[O] EECS 370"; m1count++ }
         if (courses.has("eecs376")) { document.getElementById("m1item7").innerHTML = "[O] EECS 376"; m1count++ }
-        if (has_stats(courses)) { document.getElementById("m1item8").innerHTML = "[O] STATS 250, 265, 280, 412, 426, or IOE 265"; m1count++ }
+        if (has_stats_cs(courses)) { document.getElementById("m1item8").innerHTML = "[O] STATS 250, 265, 280, 412, 426, or IOE 265"; m1count++ }
         temp_course = capstone(courses);
         if (temp_course != "none") { document.getElementById("m1item13").innerHTML = "[O] Capstone Class: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
         temp_course = ulcs(courses);
@@ -111,11 +145,18 @@
         if (temp_course != "none") { document.getElementById("m1item11").innerHTML = "[O] Upper-Level CS Technical Elective 3: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
         temp_course = ulcs(courses);
         if (temp_course != "none") { document.getElementById("m1item12").innerHTML = "[O] Upper-Level CS Technical Elective 4: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
+        courses = new Set([...courses, ...temp]);
 
-
+        //economics
+        var m2count = 0;
+        if (courses.has("econ101")) { document.getElementById("m2item1").innerHTML = "[O] ECON 101"; m2count++ }
+        if (courses.has("econ102")) { document.getElementById("m2item2").innerHTML = "[O] ECON 102"; m2count++ }
 
         document.getElementById("percentage1").innerHTML = m1count + "/13 classes taken (" + (m1count / 13 * 100).toFixed(3) + "%)";
         document.getElementById("major1").style.backgroundColor = num_to_color(m1count / 13, 40);
+        document.getElementById("percentage2").innerHTML = m2count + "/12 classes taken (" + (m2count / 12 * 100).toFixed(3) + "%)";
+        document.getElementById("major2").style.backgroundColor = num_to_color(m2count / 12, 40);
+
       }
     </script>
   </head>
@@ -123,8 +164,9 @@
     <input type="text" size="180" id="list" placeholder="Enter your classes in the form of a comma separated list (EECS 183, EECS 280, EECS 203, etc.)">
     <br>
     <button onclick="display()" type="button" id="Enter">Enter</button>
+
     <div class="major" id="major1" onclick="hideshow('list1')"> <!computer science lsa>
-      <h1>Computer Science</h1>
+      <h1 id="name1">Computer Science</h1>
       <h2 id="percentage1"> 0/13 classes taken (0.000%) </h2>
       <div class="list" id="list1">
         <p id="m1item1"> [X] MATH 115, 120, or 185 </p>
@@ -140,6 +182,25 @@
         <p id="m1item11"> [X] Upper-Level CS Technical Elective 3 </p>
         <p id="m1item12"> [X] Upper-Level CS Technical Elective 4 </p>
         <p id="m1item13"> [X] Capstone Class </p>
+      </div>
+    </div>
+
+    <div class="major" id="major2" onclick="hideshow('list2')"> <!computer science lsa>
+      <h1 id="name2">Economics</h1>
+      <h2 id="percentage2"> 0/12 classes taken (0.000%) </h2>
+      <div class="list" id="list2">
+        <p id="m2item1"> [X] ECON 101 </p>
+        <p id="m2item2"> [X] ECON 102 </p>
+        <p id="m2item3"> [X] MATH 115 (or an accepted substitute) </p>
+        <p id="m2item4"> [X] ECON 401 </p>
+        <p id="m2item5"> [X] ECON 402 </p>
+        <p id="m2item6"> [X] STATS 250, 280, or 426, or ECON 451 or 453 </p>
+        <p id="m2item7"> [X] ECON 251, 452, or 454 </p>
+        <p id="m2item8"> [X] Upper-Level Economics Elective 1 </p>
+        <p id="m2item9"> [X] Upper-Level Economics Elective 2 </p>
+        <p id="m2item10"> [X] Upper-Level Economics Elective 3 </p>
+        <p id="m2item11"> [X] Upper-Level Economics Elective 4 </p>
+        <p id="m2item12"> [X] Upper-Level Economics Elective 5 </p>
       </div>
     </div>
   </body>
