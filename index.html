@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="style.css">
+    <script src="lookup.js"> </script>
+    <script src="util.js"> </script>
     <script type="text/javascript">
       // MATH 115, MATH 116, EECS 203, EECS 280, EECS 281, EECS 370, EECS 376, EECS 477, STATS 412, EECS 388, EECS 470, EECS 476, EECS 485
       function reset() {
@@ -38,42 +40,34 @@
         document.getElementById("m2item12").innerHTML =  "[X] Upper-Level Economics Elective 5";
       }
 
-      function num_to_color(perc, darkness) {
-        var dark_diff = 255 - darkness;
-        var color_num = dark_diff * 65536 + darkness;
-        if (perc < .5) {
-          color_num += Math.floor(dark_diff * perc * 2) * 256;
-        }
-        else if (perc > .5) {
-          color_num += dark_diff * 256;
-          color_num -= Math.floor(dark_diff * (perc - 0.5) * 2)  * 65536;
-        }
-        var color_hex = color_num.toString(16);
-        if (color_hex.length == 4) {
-          color_hex = "00" + color_hex;
-        }
-        else if (color_hex.length == 5) {
-          color_hex = "0" + color_hex;
-        }
-        return '#' + color_hex;
-      }
-
-      function hideshow(id) {
-        var x = document.getElementById(id);
-        if (x.style.display === "none") {
-          x.style.display = "block";
-        } else {
-          x.style.display = "none";
-        }
-      }
-
       function has_stats_cs(course_set) {
         return course_set.has("stats250") || course_set.has("stats265") || course_set.has("stats280") || course_set.has("stats412") || course_set.has("stats426") || course_set.has("ioe265");
       }
 
-      function normalize(course) {
-        var res = course.toUpperCase();
-        return res.substring(0, res.length - 3) + " " + res.substring(res.length - 3, res.length);
+      function has_stats_econ(course_set) {
+        return course_set.has("stats250") || course_set.has("stats280") || course_set.has("stats426") || course_set.has("econ451") || course_set.has("econ453");
+      }
+
+      function econ_math(course_set) {
+        if (course_set.has("math115")) { return "math115"; }
+        else if (course_set.has("math116")) { return "math116"; }
+        else if (course_set.has("math121")) { return "math121"; }
+        else if (course_set.has("math156")) { return "math156"; }
+        else if (course_set.has("math185")) { return "math185"; }
+        else if (course_set.has("math186")) { return "math186"; }
+        else if (course_set.has("math215")) { return "math215"; }
+        else if (course_set.has("math216")) { return "math216"; }
+        else if (course_set.has("math255")) { return "math255"; }
+        else if (course_set.has("math256")) { return "math256"; }
+        else if (course_set.has("math285")) { return "math285"; }
+        else if (course_set.has("math286")) { return "math286"; }
+        else if (course_set.has("math295")) { return "math295"; }
+        else if (course_set.has("math296")) { return "math296"; }
+        else { return "none"; }
+      }
+
+      function has_econometrics(course_set) {
+        return course_set.has("econ251") || course_set.has("econ452") || course_set.has("econ454");
       }
 
       function capstone(course_set) {
@@ -151,6 +145,12 @@
         var m2count = 0;
         if (courses.has("econ101")) { document.getElementById("m2item1").innerHTML = "[O] ECON 101"; m2count++ }
         if (courses.has("econ102")) { document.getElementById("m2item2").innerHTML = "[O] ECON 102"; m2count++ }
+        temp_course = econ_math(courses);
+        if (temp_course != "none") { document.getElementById("m2item3").innerHTML = "[O] MATH 115 (or an accepted substitute)"; m2count++ }
+        if (courses.has("econ401")) { document.getElementById("m2item4").innerHTML = "[O] ECON 401"; m2count++ }
+        if (courses.has("econ402")) { document.getElementById("m2item5").innerHTML = "[O] ECON 402"; m2count++ }
+        if (has_stats_econ(courses)) { document.getElementById("m2item6").innerHTML = "[O] STATS 250, 280, or 426, or ECON 451 or 453"; m2count++ }
+        if (has_econometrics(courses)) { document.getElementById("m2item7").innerHTML = "[O] ECON 251, 452, or 454"; m2count++ }
 
         document.getElementById("percentage1").innerHTML = m1count + "/13 classes taken (" + (m1count / 13 * 100).toFixed(3) + "%)";
         document.getElementById("major1").style.backgroundColor = num_to_color(m1count / 13, 40);
@@ -164,6 +164,8 @@
     <input type="text" size="180" id="list" placeholder="Enter your classes in the form of a comma separated list (EECS 183, EECS 280, EECS 203, etc.)">
     <br>
     <button onclick="display()" type="button" id="Enter">Enter</button>
+
+    <h2 class="description"> Click on a major to see the breakdown of completed courses! </h2>
 
     <div class="major" id="major1" onclick="hideshow('list1')"> <!computer science lsa>
       <h1 id="name1">Computer Science</h1>
