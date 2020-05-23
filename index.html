@@ -11,19 +11,19 @@
       function reset() {
 
         //computer science
-        document.getElementById("m1item1").innerHTML = "[X] MATH 115, 120, or 185";
-        document.getElementById("m1item2").innerHTML =  "[X] MATH 116, 121, or 186";
-        document.getElementById("m1item3").innerHTML =  "[X] EECS 203";
-        document.getElementById("m1item4").innerHTML =  "[X] EECS 280";
-        document.getElementById("m1item5").innerHTML =  "[X] EECS 281";
-        document.getElementById("m1item6").innerHTML =  "[X] EECS 370";
-        document.getElementById("m1item7").innerHTML =  "[X] EECS 376";
-        document.getElementById("m1item8").innerHTML =  "[X] STATS 250, 265, 280, 412, 426, or IOE 265";
+        document.getElementById("m1item0").innerHTML = "[X] MATH 115, 120, or 185";
+        document.getElementById("m1item1").innerHTML =  "[X] MATH 116, 121, or 186";
+        document.getElementById("m1item2").innerHTML =  "[X] EECS 203";
+        document.getElementById("m1item3").innerHTML =  "[X] EECS 280";
+        document.getElementById("m1item4").innerHTML =  "[X] EECS 281";
+        document.getElementById("m1item5").innerHTML =  "[X] EECS 370";
+        document.getElementById("m1item6").innerHTML =  "[X] EECS 376";
+        document.getElementById("m1item7").innerHTML =  "[X] STATS 250, 265, 280, 412, 426, or IOE 265";
         document.getElementById("m1item9").innerHTML =  "[X] Upper-Level CS Technical Elective 1";
         document.getElementById("m1item10").innerHTML =  "[X] Upper-Level CS Technical Elective 2";
         document.getElementById("m1item11").innerHTML =  "[X] Upper-Level CS Technical Elective 3";
         document.getElementById("m1item12").innerHTML =  "[X] Upper-Level CS Technical Elective 4";
-        document.getElementById("m1item13").innerHTML =  "[X] Capstone Class";
+        document.getElementById("m1item8").innerHTML =  "[X] Capstone Class";
 
         //economics
         document.getElementById("m2item1").innerHTML = "[X] ECON 101";
@@ -70,20 +70,6 @@
         return course_set.has("econ251") || course_set.has("econ452") || course_set.has("econ454");
       }
 
-      function capstone(course_set) {
-        if (course_set.has("eecs440")) { return "eecs440" }
-        else if (course_set.has("eecs441")) { return "eecs441"; }
-        else if (course_set.has("eecs443")) { return "eecs443"; }
-        else if (course_set.has("eecs467")) { return "eecs467"; }
-        else if (course_set.has("eecs473")) { return "eecs473"; }
-        else if (course_set.has("eecs480")) { return "eecs480"; }
-        else if (course_set.has("eecs494")) { return "eecs494"; }
-        else if (course_set.has("eecs495")) { return "eecs485"; }
-        else if (course_set.has("eecs497")) { return "eecs497"; }
-        else if (course_set.has("eecs470")) { return "eecs470"; }
-        else { return "none"; }
-      }
-
       function display() {
         var raw = ((document.getElementById("list").value).toLowerCase()).replace(/\s/g, "");
         var courses = new Set(raw.split(",")); // potential problem with multiple commas
@@ -91,27 +77,7 @@
         var temp_course = "";
         reset();
 
-        //computer science
-        var m1count = 0;
-        if (courses.has("math115") || courses.has("math120") || courses.has("math185")) { document.getElementById("m1item1").innerHTML = "[O] MATH 115, 120, or 185"; m1count++ }
-        if (courses.has("math116") || courses.has("math121") || courses.has("math186")) { document.getElementById("m1item2").innerHTML = "[O] MATH 116, 121, or 186"; m1count++ }
-        if (courses.has("eecs203")) { document.getElementById("m1item3").innerHTML = "[O] EECS 203"; m1count++ }
-        if (courses.has("eecs280")) { document.getElementById("m1item4").innerHTML = "[O] EECS 280"; m1count++ }
-        if (courses.has("eecs281")) { document.getElementById("m1item5").innerHTML = "[O] EECS 281"; m1count++ }
-        if (courses.has("eecs370")) { document.getElementById("m1item6").innerHTML = "[O] EECS 370"; m1count++ }
-        if (courses.has("eecs376")) { document.getElementById("m1item7").innerHTML = "[O] EECS 376"; m1count++ }
-        if (has_stats_cs(courses)) { document.getElementById("m1item8").innerHTML = "[O] STATS 250, 265, 280, 412, 426, or IOE 265"; m1count++ }
-        temp_course = check_if(courses, cs_capstone);
-        if (temp_course != "none") { document.getElementById("m1item13").innerHTML = "[O] Capstone Class: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
-        temp_course = check_if(courses, ulcs);
-        if (temp_course != "none") { document.getElementById("m1item9").innerHTML = "[O] Upper-Level CS Technical Elective 1: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
-        temp_course = check_if(courses, ulcs);
-        if (temp_course != "none") { document.getElementById("m1item10").innerHTML = "[O] Upper-Level CS Technical Elective 2: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
-        temp_course = check_if(courses, ulcs);
-        if (temp_course != "none") { document.getElementById("m1item11").innerHTML = "[O] Upper-Level CS Technical Elective 3: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
-        temp_course = check_if(courses, ulcs);
-        if (temp_course != "none") { document.getElementById("m1item12").innerHTML = "[O] Upper-Level CS Technical Elective 4: " + normalize(temp_course); m1count++; temp.add(temp_course); courses.delete(temp_course); }
-        courses = new Set([...courses, ...temp]);
+        check_major(courses, compsci, 1);
 
         //economics
         var m2count = 0;
@@ -124,8 +90,8 @@
         if (has_stats_econ(courses)) { document.getElementById("m2item6").innerHTML = "[O] STATS 250, 280, or 426, or ECON 451 or 453"; m2count++ }
         if (has_econometrics(courses)) { document.getElementById("m2item7").innerHTML = "[O] ECON 251, 452, or 454"; m2count++ }
 
-        document.getElementById("percentage1").innerHTML = m1count + "/13 classes taken (" + (m1count / 13 * 100).toFixed(3) + "%)";
-        document.getElementById("major1").style.backgroundColor = num_to_color(m1count / 13, 40);
+        //document.getElementById("percentage1").innerHTML = m1count + "/13 classes taken (" + (m1count / 13 * 100).toFixed(3) + "%)";
+        //document.getElementById("major1").style.backgroundColor = num_to_color(m1count / 13, 40);
         document.getElementById("percentage2").innerHTML = m2count + "/12 classes taken (" + (m2count / 12 * 100).toFixed(3) + "%)";
         document.getElementById("major2").style.backgroundColor = num_to_color(m2count / 12, 40);
 
@@ -143,19 +109,19 @@
       <h1 id="name1">Computer Science</h1>
       <h2 id="percentage1"> 0/13 classes taken (0.000%) </h2>
       <div class="list" id="list1">
-        <p id="m1item1"> [X] MATH 115, 120, or 185 </p>
-        <p id="m1item2"> [X] MATH 116, 121, or 186 </p>
-        <p id="m1item3"> [X] EECS 203 </p>
-        <p id="m1item4"> [X] EECS 280 </p>
-        <p id="m1item5"> [X] EECS 281 </p>
-        <p id="m1item6"> [X] EECS 370 </p>
-        <p id="m1item7"> [X] EECS 376 </p>
-        <p id="m1item8"> [X] STATS 250, 265, 280, 412, 426, or IOE 265 </p>
+        <p id="m1item0"> [X] MATH 115, 120, or 185 </p>
+        <p id="m1item1"> [X] MATH 116, 121, or 186 </p>
+        <p id="m1item2"> [X] EECS 203 </p>
+        <p id="m1item3"> [X] EECS 280 </p>
+        <p id="m1item4"> [X] EECS 281 </p>
+        <p id="m1item5"> [X] EECS 370 </p>
+        <p id="m1item6"> [X] EECS 376 </p>
+        <p id="m1item7"> [X] STATS 250, 265, 280, 412, 426, or IOE 265 </p>
         <p id="m1item9"> [X] Upper-Level CS Technical Elective 1 </p>
         <p id="m1item10"> [X] Upper-Level CS Technical Elective 2 </p>
         <p id="m1item11"> [X] Upper-Level CS Technical Elective 3 </p>
         <p id="m1item12"> [X] Upper-Level CS Technical Elective 4 </p>
-        <p id="m1item13"> [X] Capstone Class </p>
+        <p id="m1item8"> [X] Capstone Class </p>
       </div>
     </div>
 
