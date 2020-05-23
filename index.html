@@ -77,7 +77,7 @@
         var temp_course = "";
         reset();
 
-        check_major(courses, compsci, 1);
+        check_major(new Set([...courses]), compsci, 1);
 
         //economics
         var m2count = 0;

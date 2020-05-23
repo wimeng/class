@@ -29,15 +29,6 @@ var compsci = [["math115", "math120", "math185", false],
                 "eecs484", "eecs485", "eecs486", "eecs487", "eecs489",
                 "eecs490", "eecs491", "eecs492", "eecs493", true]];
 
-var ulcs = ["eecs367", "eecs373", "eecs381", "eecs388", "eecs427",
-            "eecs442", "eecs445", "eecs470", "eecs475", "eecs476",
-            "eecs477", "eecs478", "eecs481", "eecs482", "eecs483",
-            "eecs484", "eecs485", "eecs486", "eecs487", "eecs489",
-            "eecs490", "eecs491", "eecs492", "eecs493"];
-var cs_capstone = ["eecs440", "eecs441", "eecs443", "eecs467", "eecs473",
-                   "eecs480", "eecs494", "eecs495", "eecs497", "eecs470"];
-
-
 function num_to_color(perc, darkness) {
   var dark_diff = 255 - darkness;
   var color_num = dark_diff * 65536 + darkness;
@@ -96,7 +87,6 @@ function check_major(course_set, major, list_num) {
     temp_course = check_if(course_set, major[i]);
     if (temp_course != "none") { item_done("m" + list_num + "item" + i, temp_course, major[i][major[i].length - 1]); count++; temp.add(temp_course); course_set.delete(temp_course); }
   }
-  course_set = new Set([...course_set, ...temp]);
   document.getElementById("percentage" + list_num).innerHTML = count + "/" + major.length + " classes taken (" + (count / major.length * 100).toFixed(3) + "%)";
   document.getElementById("major" + list_num).style.backgroundColor = num_to_color(count / major.length, 40);
   return true;
